@@ -1,6 +1,6 @@
 # Sección 2 - React Essentials
 
-## Qué es JSX
+## 15 Qué es JSX
 
 - Crear aplicación react
 
@@ -8,7 +8,7 @@
 npx create-react-app myfirstapp
 ```
 
-## Import CSS
+## 16 Import CSS
 
 - Crear un archivo CSS normal: Custom.css
 
@@ -42,7 +42,7 @@ function App() {
 }
 ````
 
-## Inline CSS
+## 17 Inline CSS
 
 - Propiedades de CSS con guiones se escriben en camelCase
   - Background-color: backgroundColor
@@ -62,7 +62,7 @@ function App() {
 
 - 
 
-## Curly braces in react
+## 18 Curly braces in react
 
 - Se usa { } para evaluar expresiones Javascript durante la compilación
 - Puede ser una variable, función u objeto o cualquier código que resuelva/retorne un valor
@@ -78,7 +78,7 @@ const greenStyle = { color:'green' }
 <box style ={{color:'green'}} />
 ````
 
-## Styles Objects
+## 19 Styles Objects
 
 - Poner los estilos en un objeto
 - Se puede convertir el CSS a JSON en: https://transform.tools/css-to-js
@@ -108,7 +108,11 @@ const styles = {
 }
 ````
 
-## Store jsx element to variable
+## 22
+
+- N/A
+
+## 21 Store jsx element to variable
 
 ```jsx
 function App() {
