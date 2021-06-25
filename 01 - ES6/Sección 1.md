@@ -1,4 +1,4 @@
-# Sección 1
+# Sección 1 - ES6
 
 ## 3 var vs let vs const
 
@@ -445,4 +445,30 @@ console.log(plus3);
 
 ## 14 For in / for of
 
-- 
+### for in
+
+- Permite iterar en las propiedades de un objeto
+
+````javascript
+const frutaObject = {
+  manzana:13,
+  naranja:17,
+  plátano:15
+}
+
+for (let value in frutaObject) {
+  console.log(value)
+}
+````
+
+#### for of
+
+- Permite iterar un arreglo
+
+````javascript
+const frutas = ["manzana", "naranja", "plátano"]
+for (let fruta of frutas) {
+  console.log(fruta);
+}
+````
+
