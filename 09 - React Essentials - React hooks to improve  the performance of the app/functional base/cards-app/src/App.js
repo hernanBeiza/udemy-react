@@ -15,67 +15,42 @@ const theme = {
 
 function App() {
   const [showCard, setShowCard] = useState(true);
-  const [cards, setCards] = useState([]);
+  const [id, setId] = useState(1);
+  const [card, setCard] = useState([]);
 
   useEffect(() =>{
-    axios.get('https://jsonplaceholder.typicode.com/users')
+    axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
     .then(res=>{
       console.log(res.data);
-      setCards(res.data);
+      setCard(res.data);
     })
-  },[]);
+  },[id]);
   //Si no se pasa parámetro, hará el request múltiples veces
 
   const toggleShowCardHandler = () => setShowCard(!showCard);
-  const deleteCardHandler = (cardIndice) => {
-    //Es necesario ... para poder re renderar la vista
-    const cardsCopy = [...cards];
-    cardsCopy.splice(cardIndice,1);
 
-    console.log(cards,cardsCopy);
-    setCards(cardsCopy);
-  }
+
   const changeNameHandler = (event,cardIndice) => {
-    //1 Obtener la tarjeta a modificar
-    const indexEncontrado = cards.findIndex(itemCard=>itemCard.id==cardIndice);
-    //2 Crear una copia de las tarjetas
-    const cardsCopy = [...cards];
-    //3 Cambiar el nombre de la tarjeta
-    cardsCopy[indexEncontrado].name = event.target.value;
-    //4 Actualizar tarjetas
-    setCards(cardsCopy);
+    //1 Crear una copia de las tarjetas
+    const cardCopy = {...card};
+    //2 Cambiar el nombre de la tarjeta
+    cardCopy.name = event.target.value;
+    //3 Actualizar tarjetas
+    setCard(cardCopy);
   }
 
-  const buttonsMarkup = (
-    <div>
-    <button className="button button2">Yes</button>
-    <button className="button button3">No</button>
-    </div>
-    )
-
-  const classes = ["button"];
-
-  if (cards.length<3) classes.push("pink");
-  if (cards.length<2) classes.push("red");  
-
-  const cardMarkup = (
-    showCard && (
-      cards.map ((card,index)=><Card 
-        name={card.name} 
-        phone={card.phone}
-        key ={card.id}
-        onDelete={() => deleteCardHandler(index)}
-        onChangeName={(event) => changeNameHandler(event,card.id)}
-        />
-        )
-      )
-    )
   return (
     <ThemeProvider theme={theme}>
     <div className="App">
-    <Button color="primary" length={cards.length}>Toggle</Button>
-    <button className={classes.join(" ")} onClick={()=>toggleShowCardHandler()}>Toggle Show/Hide</button>
-    {cardMarkup}
+    <div className="inputBox">
+    <input type="text" value={id} onChange={e =>setId(e.target.value)}/>
+    </div>
+    <Card 
+        name={card.name} 
+        phone={card.phone}
+        key ={card.id}
+        onChangeName={(event) => changeNameHandler(event,card.id)}
+        />
     </div>
     </ThemeProvider>
     );
