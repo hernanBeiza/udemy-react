@@ -5,7 +5,7 @@
 - class
 - constructor recibe el props del componente
 - En clases no se usa useEffect
-- En la funcíon render va el código de la vista
+- En la función render va el código de la vista
 - El componente App como clase queda así:
 
 ````jsx
