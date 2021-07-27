@@ -182,3 +182,208 @@ export default App;
 
 ```
 
+## React Context
+
+- Para agregar state a los componentes que están más abajo de la jerarquía se puede usar vía props
+- Pero el problema es que se deben ir pasando de componente a componente: En pirámide
+- Esto hace la mantenibilidad de código tediosa
+
+```jsx
+export const NameContext = React.createContext()
+```
+
+- En un componente se setea el valor
+
+```jsx
+import React from 'react';
+
+import logo from './logo.svg';
+import './App.css';
+
+import ComponentA from './component/ComponentA/ComponentA';
+
+export const NameContext = React.createContext();
+
+function App() {
+  return (
+    <div className="App">
+    <NameContext.Provider value={"Smith"}>
+    <ComponentA/>
+    </NameContext.Provider>
+    </div>
+  );
+}
+
+export default App;
+```
+
+- Y en el componente que consume el valor se usa NameContext.Consumer
+
+  ```jsx
+  import { useState, useEffect } from 'react';
+  
+  import { NameContext } from './../../App.js';
+  
+  function ComponentC() {
+  
+    return (
+      <div>Component C
+      <NameContext.Consumer>
+        {name=>{
+          return <p>{name}</p>
+        }}
+      </NameContext.Consumer>
+      </div>
+    );
+  }
+  
+  export default ComponentC;
+  ```
+
+  
+
+## 51 Múltiples React Context
+
+- Se pueden crear varios ReactContext, uno dentro de otro o anidados
+- En el componente padre, App.js
+
+```jsx
+import React from 'react';
+
+import logo from './logo.svg';
+import './App.css';
+
+import ComponentA from './component/ComponentA/ComponentA';
+
+export const NameContext = React.createContext();
+export const ColorContext = React.createContext();
+
+function App() {
+  return (
+    <div className="App">
+    <NameContext.Provider value={"Smith"}>
+      <ColorContext.Provider value={"red"}>
+        <ComponentA/>
+      </ColorContext.Provider>
+    </NameContext.Provider>
+    </div>
+    );
+}
+
+export default App;
+```
+
+- En el componente hijo, ComponentC.js
+
+````jsx
+import { useState, useEffect } from 'react';
+
+import { NameContext } from './../../App.js';
+import { ColorContext } from './../../App.js';
+
+function ComponentC() {
+
+  return (
+    <div>
+      <span>Component C</span>
+      <NameContext.Consumer>
+        {/*
+          {name=>{
+            return <p>{name}</p>
+          }}
+        */}
+        {name=>{        
+          return <ColorContext.Consumer>
+            {color=>(
+              <div> Name: { name } Color: { color }</div>
+            )}
+            </ColorContext.Consumer>
+        }}
+      </NameContext.Consumer>
+    </div>
+  );
+}
+
+export default ComponentC;
+````
+
+- Esta forma es complicada de leer y se puede mejorar con la función useContext(Context);
+
+## 52 useContext
+
+- En componentes funcionales, se puede escribir de mejor forma, más fácil de leer
+- Se importa useContext y se pasa por parámetro el context definido
+
+- En el ComponentB, se usa la función useContext
+
+```jsx
+import { useState, useContext } from 'react';
+
+import ComponentC from './../ComponentC/ComponentC';
+import { NameContext, ColorContext } from './../../App';
+
+function ComponentB() {
+
+  const name = useContext(NameContext);
+  const color = useContext(ColorContext);
+
+  return (
+    <div>
+    <p>Component B</p>
+    <p>Name: {name} </p>
+    <p>Color: {color} </p>
+    <ComponentC/>
+    </div>
+  );
+}
+
+export default ComponentB;
+
+```
+
+## useReducer
+
+- Se crea una función para la lógica del reducer
+- useReducer define un valor de salida y la función alías para llamar al reducer
+
+````jsx
+import React, { useReducer } from 'react';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { Button, ButtonGroup } from 'reactstrap';
+
+const initialState = 0;
+const reducer = (state,action)=>{
+	console.log(state,action);
+	switch(action){
+		case "increment":
+		return state+1;
+		case "decrement":
+		return state-1;
+		case "reset":
+		return initialState;
+		default:
+		return state;
+	}
+}
+
+function Counter() {
+	const [count,dispatch] = useReducer(reducer,initialState);
+
+  return (
+    <div className="Counter">
+    	<div>{count}</div>
+	    <ButtonGroup>
+	      <Button onClick={()=>dispatch("increment")}>Increment</Button>
+	      <Button onClick={()=>dispatch("decrement")}>Decrement</Button>
+	      <Button onClick={()=>dispatch("reset")} color={"danger"}>Reset</Button>
+	    </ButtonGroup>
+    </div>
+  );
+}
+
+export default Counter;
+
+````
+
