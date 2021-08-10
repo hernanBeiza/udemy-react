@@ -341,10 +341,10 @@ export default ComponentB;
 
 ```
 
-## useReducer
+## 53 useReducer
 
 - Se crea una función para la lógica del reducer
-- useReducer define un valor de salida y la función alías para llamar al reducer
+- useReducer define un valor de salida y la función alias para llamar al reducer
 
 ````jsx
 import React, { useReducer } from 'react';
@@ -386,4 +386,368 @@ function Counter() {
 export default Counter;
 
 ````
+
+## 54 useReducer (normal)
+
+- Para retornar múltiples valores, se puede pasar un objeto al reducer
+
+````jsx
+import React, { useReducer } from 'react';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { Button, ButtonGroup } from 'reactstrap';
+
+const initialState = {
+	counter1:0,
+	counter2:10
+}
+const reducer = (state,action)=>{
+	console.log(state,action);
+	switch(action.type){
+		case "increment":
+		return {...state, counter1:state.counter1 + 1};
+		case "decrement":
+		return {...state, counter1:state.counter1 - 1};
+		case "reset":
+		return initialState;
+		default:
+		return state;
+	}
+}
+
+function Counter() {
+	const [count,dispatch] = useReducer(reducer,initialState);
+
+  return (
+    <div className="Counter">
+    	<div>{count.counter1}</div>
+	    <ButtonGroup>
+	      <Button onClick={()=>dispatch({type:"increment"})}>Increment</Button>
+	      <Button onClick={()=>dispatch({type:"decrement"})}>Decrement</Button>
+	      <Button onClick={()=>dispatch({type:"reset"})} color={"danger"}>Reset</Button>
+	    </ButtonGroup>
+    </div>
+  );
+}
+
+export default Counter;
+
+````
+
+- Se manipula el objeto con una copia, usando {...}
+
+- Se pueden pasar más parámetros para manipular el resultado la función del reducer
+
+```jsx
+import React, { useReducer } from 'react';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { Button, ButtonGroup, Badge } from 'reactstrap';
+
+const initialState = {
+	counter1:0,
+	counter2:10
+}
+const reducer = (state,action)=>{
+	console.log(state,action);
+	switch(action.type){
+		case "increment":
+		return {...state, counter1:state.counter1 + action.payload};
+		case "decrement":
+		return {...state, counter1:state.counter1 - action.payload};
+		case "increment2":
+		return {...state, counter2:state.counter2 + action.payload};
+		case "decrement2":
+		return {...state, counter2:state.counter2 - action.payload};
+		case "reset":
+		return initialState;
+		default:
+		return state;
+	}
+}
+
+function Counter() {
+	const [count,dispatch] = useReducer(reducer,initialState);
+
+  return (
+    <div className="Counter">
+	    <ButtonGroup>
+	      <Button color="primary">
+	      Counter1: <Badge color="secondary">{count.counter1}</Badge>
+	      </Button>
+	      <Button color="primary">
+	      Counter2: <Badge color="secondary">{count.counter2}</Badge>
+	      </Button>
+      </ButtonGroup>
+	    <p></p>
+	    <ButtonGroup>
+	      <Button onClick={()=>dispatch({type:"increment", payload:1})}>Increment</Button>
+	      <Button onClick={()=>dispatch({type:"decrement", payload:1})}>Decrement</Button>
+	    </ButtonGroup>
+	    <p></p>
+	    <ButtonGroup>
+	      <Button onClick={()=>dispatch({type:"increment2", payload:5})}>Increment counter 2</Button>
+	      <Button onClick={()=>dispatch({type:"decrement2", payload:5})}>Decrement counter 2</Button>
+	    </ButtonGroup>
+	    <p></p>
+	    <ButtonGroup>
+	      <Button onClick={()=>dispatch({type:"reset"})} color={"danger"}>Reset</Button>
+	    </ButtonGroup>
+    </div>
+  );
+}
+
+export default Counter;
+
+```
+
+## 55 multiple useReducer
+
+- Se puede simplificar la función reducer y usar de mejor forma duplicando la asignación del valor a otra constante
+
+````jsx
+import React, { useReducer } from 'react';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { Button, ButtonGroup, Badge } from 'reactstrap';
+
+const initialState = {
+	counter:0
+}
+const reducer = (state,action)=>{
+	console.log(state,action);
+	switch(action.type){
+		case "increment":
+		return {...state, counter:state.counter + action.payload};
+		case "decrement":
+		return {...state, counter:state.counter - action.payload};
+		case "reset":
+		return initialState;
+		default:
+		return state;
+	}
+}
+
+function Counter() {
+  //Poner atención acá
+	const [state1,dispatch1] = useReducer(reducer,initialState);
+	const [state2,dispatch2] = useReducer(reducer,initialState);
+
+  return (
+    <div className="Counter">
+	    <ButtonGroup>
+	      <Button color="primary">
+	      Counter1: <Badge color="secondary">{state1.counter}</Badge>
+	      </Button>
+	      <Button color="primary">
+	      Counter2: <Badge color="secondary">{state2.counter}</Badge>
+	      </Button>
+      </ButtonGroup>
+	    <p></p>
+	    <ButtonGroup>
+	      <Button onClick={()=>dispatch1({type:"increment", payload:1})}>Increment</Button>
+	      <Button onClick={()=>dispatch1({type:"decrement", payload:1})}>Decrement</Button>
+	      <Button onClick={()=>dispatch1({type:"reset"})} color={"danger"}>Reset</Button>
+	    </ButtonGroup>
+	    <p></p>
+	    <ButtonGroup>
+	      <Button onClick={()=>dispatch2({type:"increment", payload:1})}>Increment</Button>
+	      <Button onClick={()=>dispatch2({type:"decrement", payload:1})}>Decrement</Button>
+	      <Button onClick={()=>dispatch2({type:"reset"})} color={"danger"}>Reset</Button>
+	    </ButtonGroup>
+	    <p></p>
+    </div>
+  );
+}
+
+export default Counter;
+
+````
+
+## 56 useReducer with useContext
+
+- Se puede pasar una variable de estado y una función al CounterContext Provider
+- Así se peude usar en distintos componentes los valores que pasan por el dispatch del reducer
+
+- En componente padre App
+
+```jsx
+import React, { useReducer } from 'react';
+
+import logo from './logo.svg';
+import './App.css';
+
+import ComponentA from './components/ComponentA';
+
+//Para poder ser usado en otros componentes
+export const CounterContext = React.createContext();
+
+
+const initialState = {
+  counter:0
+}
+const reducer = (state,action)=>{
+  console.log(state,action);
+  switch(action.type){
+    case "increment":
+    return {...state, counter:state.counter + action.payload};
+    case "decrement":
+    return {...state, counter:state.counter - action.payload};
+    case "reset":
+    return initialState;
+    default:
+    return state;
+  }
+}
+
+function App() {
+  const [state,dispatch] = useReducer(reducer,initialState);
+  return (
+    <CounterContext.Provider value={{counter:state.counter, dispatch:dispatch}}>
+      <div className="App">
+      App JS {state.counter}
+        <ComponentA/>
+      }
+      </div>
+    </CounterContext.Provider>
+  );
+}
+
+export default App;
+
+```
+
+- En componente hijo
+
+````jsx
+import React, { useContext } from 'react';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { Button, ButtonGroup, Badge } from 'reactstrap';
+
+import { CounterContext } from './../App';
+
+function ComponentA() {
+	const counterContext = useContext(CounterContext);
+	console.log(counterContext);
+	const {counter,dispatch} = counterContext;
+  return (
+    <div className="ComponentA">
+	    <ButtonGroup>
+		      <Button color="primary">
+		      ComponentA Counter: <Badge color="secondary">{counter}</Badge>
+		      </Button>
+	      </ButtonGroup>
+		    <p></p>
+		    <ButtonGroup>
+		      <Button onClick={()=>dispatch({type:"increment", payload:1})}>Increment</Button>
+		      <Button onClick={()=>dispatch({type:"decrement", payload:1})}>Decrement</Button>
+		      <Button onClick={()=>dispatch({type:"reset"})} color={"danger"}>Reset</Button>
+		    </ButtonGroup>
+    </div>
+  );
+}
+
+export default ComponentA;
+
+````
+
+## 57 use of useReducer with useContext
+
+- Se puede reusar la lógica en toda el árbol de componentes hacia abajo
+- Revisar reducer-multiple-app
+
+## 58 use useReducer with useEffect to fetch the data
+
+- axios
+
+```
+npm install axios
+```
+
+- En el componente principal
+
+```jsx
+import logo from './logo.svg';
+import './App.css';
+
+import React, {useEffect, useReducer} from 'react';
+import axios from 'axios';
+
+const initialState = {
+  loading:true,
+  error:"",
+  todos:[]
+}
+
+const reducer = (state,action) =>{
+  switch (action.type) {
+    case 'SET_DATA':
+      return {
+        loading:false,
+        error:"",
+        todos:action.payload
+      }
+    break;
+    case 'SET_ERROR':
+      return {
+        loading:false,
+        error:"Error encontrado",
+        todos:[]
+      }
+    break;
+    default:
+    return state;
+  }
+}
+
+function App() {
+  const[state,dispatch]= useReducer(reducer,initialState);
+  useEffect(()=>{
+    axios.get("https://jsonplaceholder.typicode.com/todos")
+    .then(res=>{
+      console.log(res.data);
+      dispatch({type:"SET_DATA",payload:res.data})
+    })
+    .catch(err=>{
+      dispatch({type:"SET_ERROR"})
+    })
+  },[]);
+
+  let listMarkup = (
+    <ul>
+    {state.todos.map(itemTodo=><li key={itemTodo.id}>{itemTodo.title}</li>)}
+    </ul>
+    )
+
+  return (
+    <div className="App">
+    {state.loading ? 'Loading' : (state.error ? state.error : listMarkup)}
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+- Render condicional
+
+
+
+## 59 Beautify the list with ReactStrap / Bootstrap
+
+- Render condicional
+
+- Uso de reactstrap
+
+## 60 useMemo
+
+
+
+
 
