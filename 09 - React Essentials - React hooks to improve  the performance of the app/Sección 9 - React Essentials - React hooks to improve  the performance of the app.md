@@ -747,7 +747,190 @@ export default App;
 
 ## 60 useMemo
 
+- En react los componentes se rerenderizan incluso si los cambios en el state no tienen que ver con ellos mismos
+  - Cambios en state de otros componentes
+- Para evitar eso se puede usar useMemo
+  - Así se puede evitar impactar en la performance de la aplicación
 
+- useMemo sirve para evitar gatillar el renderizado de un componente
+- Recibe un arreglo de variables para condicionar el gatillado de la función, como useEffect
+- En el componente padre se importa useMemo y se retorna el componente a condicionar
+
+````jsx
+const memoComponentA = useMemo(()=>{
+	return ComponentA;
+},[])
+//[] para gatilla una sola vez
+````
+
+- Y en la vista del componente padre
+
+```
+<p></p>
+{memoComponentA}
+```
+
+- Componente padre
+
+````jsx
+import logo from './logo.svg';
+import './App.css';
+import React, {useState,useEffect,useMemo} from 'react';
+
+import ComponentA from './components/ComponentA';
+
+function App() {
+  const [contador, setContador] = useState(0);
+  const incrementar = () => {
+    setContador(contador+1);
+  };
+  const memoComponentA = useMemo(() => {
+    return <ComponentA/>;
+  },[]);
+  return (
+    <div className="App">
+      <p>
+        <code>App.js contador: {contador}</code>
+      </p>
+      <p>
+        <button onClick={incrementar}>Incrementar</button>
+      </p>
+      <p>
+        {memoComponentA}
+      </p>
+    </div>
+  );
+}
+
+export default App;
+````
+
+- Componente hijo
+
+```jsx
+import React, {useEffect} from 'react';
+
+let renderCount = 0;
+
+function ComponentA() {
+
+	useEffect(()=>{
+		renderCount++;
+	});
+
+  return (
+    <div className="ComponentA">
+      <p>ComponentA</p>
+      <p>
+        <code>
+        	{renderCount}
+        </code>
+      </p>
+    </div>
+  );
+}
+
+export default ComponentA;
+```
+
+## 61 useMemo
+
+- Si se queire pasar un valor al componente hijo
+- Se pueden usar props en la función memoComponentA
+- Pero hay que pasar la dependencia en la función useMemo para que permita el renderizado
+- Componente padre
+
+```jsx
+  const memoComponentA = useMemo(() => {
+    return <ComponentA count={contador}/>;
+  },[contador]);
+//Dependencia contador
+```
+
+- Componente hijo
+
+````jsx
+import React, {useEffect} from 'react';
+
+let renderCount = 0;
+
+function ComponentA(props) {
+
+	useEffect(()=>{
+		renderCount++;
+	});
+
+  return (
+    <div className="ComponentA">
+      <p>ComponentA</p>
+      <p>
+        <code>
+        	{renderCount} times || Counter {props.count}
+        </code>
+      </p>
+    </div>
+  );
+}
+
+export default ComponentA;
+
+````
+
+- Solo los componentes que usan useMemo se verán condicionados en su renderizado
+- Se crea otro componente hijo pero no se condiciona. Componente padre:
+
+````jsx
+import logo from './logo.svg';
+import './App.css';
+import React, {useState,useEffect,useMemo} from 'react';
+
+import ComponentA from './components/ComponentA';
+import ComponentB from './components/ComponentB';
+
+function App() {
+  const [contadorA, setContadorA] = useState(0);
+  const [contadorB, setContadorB] = useState(0);
+  
+  const incrementarA = () => {
+    setContadorA(contadorA+1);
+  };
+  const incrementarB = () => {
+    setContadorB(contadorB+1);
+  };
+  
+  const memoComponentA = useMemo(() => {
+    return <ComponentA count={contadorA}/>;
+  },[contadorA]);
+  
+  return (
+    <div className="App">
+      <p>
+        <code>App.js contadorA: {contadorA}</code>
+      </p>
+      <p>
+        <code>App.js contadorB: {contadorB}</code>
+      </p>
+      <p>
+        <button onClick={incrementarA}>IncrementarA</button>
+      </p>
+      <p>
+        <button onClick={incrementarB}>Incrementar B</button>
+      </p>
+      <p>
+        {memoComponentA}
+      </p>
+      <p>
+        <ComponentB count={contadorB}/>
+      </p>
+    </div>
+  )
+}
+
+export default App;
+
+````
+
+- 
 
 
 
