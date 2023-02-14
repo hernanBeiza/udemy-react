@@ -4,9 +4,9 @@
 
 - Instalar axios 
 
-````
+```
 npm install axios
-````
+```
 
 - Importar axios en app component
 
@@ -16,7 +16,7 @@ import axios from 'axios';
 
 - Implementar useEffect + axios para obtener la data al cargar el componente App
 
-````jsx
+```jsx
 import { useState, useEffect } from 'react';
 
 import './App.css';
@@ -102,7 +102,7 @@ function App() {
 }
 
 export default App;
-````
+```
 
 ### Recordar de useEffect
 
@@ -116,8 +116,6 @@ export default App;
 - Cambiar el id usando setId
 - Agregar un campo de texto input
 - Actualizar el HTML con la nueva estructura para mostrar sólo la tarjeta ingresada en el input
-
-
 
 ```jsx
 import { useState, useEffect } from 'react';
@@ -179,7 +177,6 @@ function App() {
 }
 
 export default App;
-
 ```
 
 ## React Context
@@ -218,7 +215,7 @@ export default App;
 ```
 
 - Y en el componente que consume el valor se usa NameContext.Consumer
-
+  
   ```jsx
   import { useState, useEffect } from 'react';
   
@@ -239,8 +236,6 @@ export default App;
   
   export default ComponentC;
   ```
-
-  
 
 ## 51 Múltiples React Context
 
@@ -275,7 +270,7 @@ export default App;
 
 - En el componente hijo, ComponentC.js
 
-````jsx
+```jsx
 import { useState, useEffect } from 'react';
 
 import { NameContext } from './../../App.js';
@@ -305,13 +300,14 @@ function ComponentC() {
 }
 
 export default ComponentC;
-````
+```
 
 - Esta forma es complicada de leer y se puede mejorar con la función useContext(Context);
 
 ## 52 useContext
 
 - En componentes funcionales, se puede escribir de mejor forma, más fácil de leer
+
 - Se importa useContext y se pasa por parámetro el context definido
 
 - En el ComponentB, se usa la función useContext
@@ -338,7 +334,6 @@ function ComponentB() {
 }
 
 export default ComponentB;
-
 ```
 
 ## 53 useReducer
@@ -346,7 +341,7 @@ export default ComponentB;
 - Se crea una función para la lógica del reducer
 - useReducer define un valor de salida y la función alias para llamar al reducer
 
-````jsx
+```jsx
 import React, { useReducer } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -355,43 +350,42 @@ import { Button, ButtonGroup } from 'reactstrap';
 
 const initialState = 0;
 const reducer = (state,action)=>{
-	console.log(state,action);
-	switch(action){
-		case "increment":
-		return state+1;
-		case "decrement":
-		return state-1;
-		case "reset":
-		return initialState;
-		default:
-		return state;
-	}
+    console.log(state,action);
+    switch(action){
+        case "increment":
+        return state+1;
+        case "decrement":
+        return state-1;
+        case "reset":
+        return initialState;
+        default:
+        return state;
+    }
 }
 
 function Counter() {
-	const [count,dispatch] = useReducer(reducer,initialState);
+    const [count,dispatch] = useReducer(reducer,initialState);
 
   return (
     <div className="Counter">
-    	<div>{count}</div>
-	    <ButtonGroup>
-	      <Button onClick={()=>dispatch("increment")}>Increment</Button>
-	      <Button onClick={()=>dispatch("decrement")}>Decrement</Button>
-	      <Button onClick={()=>dispatch("reset")} color={"danger"}>Reset</Button>
-	    </ButtonGroup>
+        <div>{count}</div>
+        <ButtonGroup>
+          <Button onClick={()=>dispatch("increment")}>Increment</Button>
+          <Button onClick={()=>dispatch("decrement")}>Decrement</Button>
+          <Button onClick={()=>dispatch("reset")} color={"danger"}>Reset</Button>
+        </ButtonGroup>
     </div>
   );
 }
 
 export default Counter;
-
-````
+```
 
 ## 54 useReducer (normal)
 
 - Para retornar múltiples valores, se puede pasar un objeto al reducer
 
-````jsx
+```jsx
 import React, { useReducer } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -399,41 +393,40 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, ButtonGroup } from 'reactstrap';
 
 const initialState = {
-	counter1:0,
-	counter2:10
+    counter1:0,
+    counter2:10
 }
 const reducer = (state,action)=>{
-	console.log(state,action);
-	switch(action.type){
-		case "increment":
-		return {...state, counter1:state.counter1 + 1};
-		case "decrement":
-		return {...state, counter1:state.counter1 - 1};
-		case "reset":
-		return initialState;
-		default:
-		return state;
-	}
+    console.log(state,action);
+    switch(action.type){
+        case "increment":
+        return {...state, counter1:state.counter1 + 1};
+        case "decrement":
+        return {...state, counter1:state.counter1 - 1};
+        case "reset":
+        return initialState;
+        default:
+        return state;
+    }
 }
 
 function Counter() {
-	const [count,dispatch] = useReducer(reducer,initialState);
+    const [count,dispatch] = useReducer(reducer,initialState);
 
   return (
     <div className="Counter">
-    	<div>{count.counter1}</div>
-	    <ButtonGroup>
-	      <Button onClick={()=>dispatch({type:"increment"})}>Increment</Button>
-	      <Button onClick={()=>dispatch({type:"decrement"})}>Decrement</Button>
-	      <Button onClick={()=>dispatch({type:"reset"})} color={"danger"}>Reset</Button>
-	    </ButtonGroup>
+        <div>{count.counter1}</div>
+        <ButtonGroup>
+          <Button onClick={()=>dispatch({type:"increment"})}>Increment</Button>
+          <Button onClick={()=>dispatch({type:"decrement"})}>Decrement</Button>
+          <Button onClick={()=>dispatch({type:"reset"})} color={"danger"}>Reset</Button>
+        </ButtonGroup>
     </div>
   );
 }
 
 export default Counter;
-
-````
+```
 
 - Se manipula el objeto con una copia, usando {...}
 
@@ -447,67 +440,66 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, ButtonGroup, Badge } from 'reactstrap';
 
 const initialState = {
-	counter1:0,
-	counter2:10
+    counter1:0,
+    counter2:10
 }
 const reducer = (state,action)=>{
-	console.log(state,action);
-	switch(action.type){
-		case "increment":
-		return {...state, counter1:state.counter1 + action.payload};
-		case "decrement":
-		return {...state, counter1:state.counter1 - action.payload};
-		case "increment2":
-		return {...state, counter2:state.counter2 + action.payload};
-		case "decrement2":
-		return {...state, counter2:state.counter2 - action.payload};
-		case "reset":
-		return initialState;
-		default:
-		return state;
-	}
+    console.log(state,action);
+    switch(action.type){
+        case "increment":
+        return {...state, counter1:state.counter1 + action.payload};
+        case "decrement":
+        return {...state, counter1:state.counter1 - action.payload};
+        case "increment2":
+        return {...state, counter2:state.counter2 + action.payload};
+        case "decrement2":
+        return {...state, counter2:state.counter2 - action.payload};
+        case "reset":
+        return initialState;
+        default:
+        return state;
+    }
 }
 
 function Counter() {
-	const [count,dispatch] = useReducer(reducer,initialState);
+    const [count,dispatch] = useReducer(reducer,initialState);
 
   return (
     <div className="Counter">
-	    <ButtonGroup>
-	      <Button color="primary">
-	      Counter1: <Badge color="secondary">{count.counter1}</Badge>
-	      </Button>
-	      <Button color="primary">
-	      Counter2: <Badge color="secondary">{count.counter2}</Badge>
-	      </Button>
+        <ButtonGroup>
+          <Button color="primary">
+          Counter1: <Badge color="secondary">{count.counter1}</Badge>
+          </Button>
+          <Button color="primary">
+          Counter2: <Badge color="secondary">{count.counter2}</Badge>
+          </Button>
       </ButtonGroup>
-	    <p></p>
-	    <ButtonGroup>
-	      <Button onClick={()=>dispatch({type:"increment", payload:1})}>Increment</Button>
-	      <Button onClick={()=>dispatch({type:"decrement", payload:1})}>Decrement</Button>
-	    </ButtonGroup>
-	    <p></p>
-	    <ButtonGroup>
-	      <Button onClick={()=>dispatch({type:"increment2", payload:5})}>Increment counter 2</Button>
-	      <Button onClick={()=>dispatch({type:"decrement2", payload:5})}>Decrement counter 2</Button>
-	    </ButtonGroup>
-	    <p></p>
-	    <ButtonGroup>
-	      <Button onClick={()=>dispatch({type:"reset"})} color={"danger"}>Reset</Button>
-	    </ButtonGroup>
+        <p></p>
+        <ButtonGroup>
+          <Button onClick={()=>dispatch({type:"increment", payload:1})}>Increment</Button>
+          <Button onClick={()=>dispatch({type:"decrement", payload:1})}>Decrement</Button>
+        </ButtonGroup>
+        <p></p>
+        <ButtonGroup>
+          <Button onClick={()=>dispatch({type:"increment2", payload:5})}>Increment counter 2</Button>
+          <Button onClick={()=>dispatch({type:"decrement2", payload:5})}>Decrement counter 2</Button>
+        </ButtonGroup>
+        <p></p>
+        <ButtonGroup>
+          <Button onClick={()=>dispatch({type:"reset"})} color={"danger"}>Reset</Button>
+        </ButtonGroup>
     </div>
   );
 }
 
 export default Counter;
-
 ```
 
 ## 55 multiple useReducer
 
 - Se puede simplificar la función reducer y usar de mejor forma duplicando la asignación del valor a otra constante
 
-````jsx
+```jsx
 import React, { useReducer } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -515,61 +507,61 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, ButtonGroup, Badge } from 'reactstrap';
 
 const initialState = {
-	counter:0
+    counter:0
 }
 const reducer = (state,action)=>{
-	console.log(state,action);
-	switch(action.type){
-		case "increment":
-		return {...state, counter:state.counter + action.payload};
-		case "decrement":
-		return {...state, counter:state.counter - action.payload};
-		case "reset":
-		return initialState;
-		default:
-		return state;
-	}
+    console.log(state,action);
+    switch(action.type){
+        case "increment":
+        return {...state, counter:state.counter + action.payload};
+        case "decrement":
+        return {...state, counter:state.counter - action.payload};
+        case "reset":
+        return initialState;
+        default:
+        return state;
+    }
 }
 
 function Counter() {
   //Poner atención acá
-	const [state1,dispatch1] = useReducer(reducer,initialState);
-	const [state2,dispatch2] = useReducer(reducer,initialState);
+    const [state1,dispatch1] = useReducer(reducer,initialState);
+    const [state2,dispatch2] = useReducer(reducer,initialState);
 
   return (
     <div className="Counter">
-	    <ButtonGroup>
-	      <Button color="primary">
-	      Counter1: <Badge color="secondary">{state1.counter}</Badge>
-	      </Button>
-	      <Button color="primary">
-	      Counter2: <Badge color="secondary">{state2.counter}</Badge>
-	      </Button>
+        <ButtonGroup>
+          <Button color="primary">
+          Counter1: <Badge color="secondary">{state1.counter}</Badge>
+          </Button>
+          <Button color="primary">
+          Counter2: <Badge color="secondary">{state2.counter}</Badge>
+          </Button>
       </ButtonGroup>
-	    <p></p>
-	    <ButtonGroup>
-	      <Button onClick={()=>dispatch1({type:"increment", payload:1})}>Increment</Button>
-	      <Button onClick={()=>dispatch1({type:"decrement", payload:1})}>Decrement</Button>
-	      <Button onClick={()=>dispatch1({type:"reset"})} color={"danger"}>Reset</Button>
-	    </ButtonGroup>
-	    <p></p>
-	    <ButtonGroup>
-	      <Button onClick={()=>dispatch2({type:"increment", payload:1})}>Increment</Button>
-	      <Button onClick={()=>dispatch2({type:"decrement", payload:1})}>Decrement</Button>
-	      <Button onClick={()=>dispatch2({type:"reset"})} color={"danger"}>Reset</Button>
-	    </ButtonGroup>
-	    <p></p>
+        <p></p>
+        <ButtonGroup>
+          <Button onClick={()=>dispatch1({type:"increment", payload:1})}>Increment</Button>
+          <Button onClick={()=>dispatch1({type:"decrement", payload:1})}>Decrement</Button>
+          <Button onClick={()=>dispatch1({type:"reset"})} color={"danger"}>Reset</Button>
+        </ButtonGroup>
+        <p></p>
+        <ButtonGroup>
+          <Button onClick={()=>dispatch2({type:"increment", payload:1})}>Increment</Button>
+          <Button onClick={()=>dispatch2({type:"decrement", payload:1})}>Decrement</Button>
+          <Button onClick={()=>dispatch2({type:"reset"})} color={"danger"}>Reset</Button>
+        </ButtonGroup>
+        <p></p>
     </div>
   );
 }
 
 export default Counter;
-
-````
+```
 
 ## 56 useReducer with useContext
 
 - Se puede pasar una variable de estado y una función al CounterContext Provider
+
 - Así se peude usar en distintos componentes los valores que pasan por el dispatch del reducer
 
 - En componente padre App
@@ -617,12 +609,11 @@ function App() {
 }
 
 export default App;
-
 ```
 
 - En componente hijo
 
-````jsx
+```jsx
 import React, { useContext } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -632,29 +623,28 @@ import { Button, ButtonGroup, Badge } from 'reactstrap';
 import { CounterContext } from './../App';
 
 function ComponentA() {
-	const counterContext = useContext(CounterContext);
-	console.log(counterContext);
-	const {counter,dispatch} = counterContext;
+    const counterContext = useContext(CounterContext);
+    console.log(counterContext);
+    const {counter,dispatch} = counterContext;
   return (
     <div className="ComponentA">
-	    <ButtonGroup>
-		      <Button color="primary">
-		      ComponentA Counter: <Badge color="secondary">{counter}</Badge>
-		      </Button>
-	      </ButtonGroup>
-		    <p></p>
-		    <ButtonGroup>
-		      <Button onClick={()=>dispatch({type:"increment", payload:1})}>Increment</Button>
-		      <Button onClick={()=>dispatch({type:"decrement", payload:1})}>Decrement</Button>
-		      <Button onClick={()=>dispatch({type:"reset"})} color={"danger"}>Reset</Button>
-		    </ButtonGroup>
+        <ButtonGroup>
+              <Button color="primary">
+              ComponentA Counter: <Badge color="secondary">{counter}</Badge>
+              </Button>
+          </ButtonGroup>
+            <p></p>
+            <ButtonGroup>
+              <Button onClick={()=>dispatch({type:"increment", payload:1})}>Increment</Button>
+              <Button onClick={()=>dispatch({type:"decrement", payload:1})}>Decrement</Button>
+              <Button onClick={()=>dispatch({type:"reset"})} color={"danger"}>Reset</Button>
+            </ButtonGroup>
     </div>
   );
 }
 
 export default ComponentA;
-
-````
+```
 
 ## 57 use of useReducer with useContext
 
@@ -732,12 +722,9 @@ function App() {
 }
 
 export default App;
-
 ```
 
 - Render condicional
-
-
 
 ## 59 Beautify the list with ReactStrap / Bootstrap
 
@@ -748,20 +735,25 @@ export default App;
 ## 60 useMemo
 
 - En react los componentes se rerenderizan incluso si los cambios en el state no tienen que ver con ellos mismos
+  
   - Cambios en state de otros componentes
+
 - Para evitar eso se puede usar useMemo
+  
   - Así se puede evitar impactar en la performance de la aplicación
 
 - useMemo sirve para evitar gatillar el renderizado de un componente
+
 - Recibe un arreglo de variables para condicionar el gatillado de la función, como useEffect
+
 - En el componente padre se importa useMemo y se retorna el componente a condicionar
 
-````jsx
+```jsx
 const memoComponentA = useMemo(()=>{
-	return ComponentA;
+    return ComponentA;
 },[])
 //[] para gatilla una sola vez
-````
+```
 
 - Y en la vista del componente padre
 
@@ -772,7 +764,7 @@ const memoComponentA = useMemo(()=>{
 
 - Componente padre
 
-````jsx
+```jsx
 import logo from './logo.svg';
 import './App.css';
 import React, {useState,useEffect,useMemo} from 'react';
@@ -803,7 +795,7 @@ function App() {
 }
 
 export default App;
-````
+```
 
 - Componente hijo
 
@@ -814,16 +806,16 @@ let renderCount = 0;
 
 function ComponentA() {
 
-	useEffect(()=>{
-		renderCount++;
-	});
+    useEffect(()=>{
+        renderCount++;
+    });
 
   return (
     <div className="ComponentA">
       <p>ComponentA</p>
       <p>
         <code>
-        	{renderCount}
+            {renderCount}
         </code>
       </p>
     </div>
@@ -835,7 +827,7 @@ export default ComponentA;
 
 ## 61 useMemo
 
-- Si se queire pasar un valor al componente hijo
+- Si se quiere pasar un valor al componente hijo
 - Se pueden usar props en la función memoComponentA
 - Pero hay que pasar la dependencia en la función useMemo para que permita el renderizado
 - Componente padre
@@ -849,23 +841,23 @@ export default ComponentA;
 
 - Componente hijo
 
-````jsx
+```jsx
 import React, {useEffect} from 'react';
 
 let renderCount = 0;
 
 function ComponentA(props) {
 
-	useEffect(()=>{
-		renderCount++;
-	});
+    useEffect(()=>{
+        renderCount++;
+    });
 
   return (
     <div className="ComponentA">
       <p>ComponentA</p>
       <p>
         <code>
-        	{renderCount} times || Counter {props.count}
+            {renderCount} times || Counter {props.count}
         </code>
       </p>
     </div>
@@ -873,13 +865,12 @@ function ComponentA(props) {
 }
 
 export default ComponentA;
-
-````
+```
 
 - Solo los componentes que usan useMemo se verán condicionados en su renderizado
 - Se crea otro componente hijo pero no se condiciona. Componente padre:
 
-````jsx
+```jsx
 import logo from './logo.svg';
 import './App.css';
 import React, {useState,useEffect,useMemo} from 'react';
@@ -890,18 +881,18 @@ import ComponentB from './components/ComponentB';
 function App() {
   const [contadorA, setContadorA] = useState(0);
   const [contadorB, setContadorB] = useState(0);
-  
+
   const incrementarA = () => {
     setContadorA(contadorA+1);
   };
   const incrementarB = () => {
     setContadorB(contadorB+1);
   };
-  
+
   const memoComponentA = useMemo(() => {
     return <ComponentA count={contadorA}/>;
   },[contadorA]);
-  
+
   return (
     <div className="App">
       <p>
@@ -927,10 +918,273 @@ function App() {
 }
 
 export default App;
+```
+
+
+
+
+
+## 62 useRef
+
+- Permite acceder o agregar elementos al dom
+
+```javascript
+import {useRef} from 'react';
+
+import './App.css';
+
+function App() {
+  const inputRef = useRef();
+
+  return (
+    <div className="App">
+    <input ref ={inputRef} type="text"/>
+    <input type="text"/>
+    <button type="button" onClick={()=>{
+      inputRef.current.focus()}
+    }>Cambiar foco al primero</button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+
+
+## 63 useRef
+
+- Cuando los componentes son desmontados hay veces que no se desmontan las funciones vinculadas a él y se siguen ejecutando
+- useRef puede servir para eso
+
+
+
+## 64 useCallback
+
+- Usado para evitar que una función se vuelva a renderear
+- Prevenir la recreación de una función
+- Acá se etán duplicando los valores
+
+`````javascript
+import React, {useCallback, useState} from 'react';
+import './App.css';
+
+const functionCounter = new Set();
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [count2, setCount2] = useState(0);
+
+  const increment = () => {
+    setCount(count+1);
+  }
+
+  const increment2 = () => {
+    setCount2(count2+1);
+  }
+  functionCounter.add(increment);
+  functionCounter.add(increment2);
+  console.log(functionCounter);
+
+  
+  return (
+    <div className="App">
+    <p>Count: {count} Count2: {count2}</p>
+    <button onClick={increment}>Incrementar contador</button>
+    <button onClick={increment2}>Incrementar contador 2</button>
+    </div>
+  );
+}
+
+export default App;
+
+`````
+
+- Acá se evita el duplicado, usando useCallback
+
+````javascript
+import React, {useCallback, useState} from 'react';
+import './App.css';
+
+const functionCounter = new Set();
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [count2, setCount2] = useState(0);
+
+  const increment = useCallback(() => {
+    setCount(count+1);
+  },functionCounter);
+
+  const increment2 = useCallback(() => {
+    setCount2(count2+1);
+  },functionCounter);
+  
+  functionCounter.add(increment);
+  functionCounter.add(increment2);
+  console.log(functionCounter);
+
+
+  return (
+    <div className="App">
+    <p>Count: {count} Count2: {count2}</p>
+    <button onClick={increment}>Incrementar contador</button>
+    <button onClick={increment2}>Incrementar contador 2</button>
+    </div>
+  );
+}
+
+export default App;
+````
+
+- De esta forma se evita recrear los llamados a la función: Evitar duplicados
+
+## 65 custom hook
+
+- Se puede crear un archivo para almacenar la lógica compartida de los componentes
+- El custom hook
+
+````jsx
+import { useState } from 'react';
+
+const useCounter = (initialCount = 0, value = 0) =>{
+	const [count, setCount] = useState(initialCount);
+
+  const increment = () => {
+    setCount((prevCount)=>prevCount+value);
+  }
+
+  const decrement = () => {
+    setCount((prevCount)=>prevCount-value);
+  };
+
+  const reset = () => {
+    setCount(0)
+  };
+  return [count, increment, decrement, reset];
+}
+
+export default useCounter;
+````
+
+
+
+- En el componente a usar 
+
+````jsx
+import { useState } from 'react';
+import {Button, ButtonGroup, Badge} from 'reactstrap';
+
+import useCounter from './../custom-hook/useCounter';
+
+function ComponentA() {
+  const [count, increment, decrement,reset] = useCounter(0,5);
+
+  return (
+    <div className="App">
+    <ButtonGroup>
+      <Button color="primary" outline>Component Counter <Badge color="primary">{count}</Badge></Button>
+    </ButtonGroup>
+    <br/>
+    <br/>
+
+    <ButtonGroup>
+      <Button color="primary" onClick={increment}>Increment</Button>
+      <Button color="primary" onClick={decrement}>Decrement</Button>
+      <Button color="danger" onClick={reset}>Reset</Button>
+    </ButtonGroup>
+    </div>
+    );
+}
+
+export default ComponentA;
 
 ````
 
-- 
+## 66 Custom hook in form
+
+- La idea de los custom hooks es separar la lógica del componente
+- Reutilizar lógica en múltiples implementaciones
+
+##### Ejemplo 
+
+- En el custom hook
+
+````jsx
+import React , { useState } from 'react';
+
+const useInput = (initialValue) => {
+	const [value, setValue] = useState("");
+
+	const clearText = () => {
+		setValue(initialValue);
+	}
+
+	const bindForm = {
+		value,
+		onChange: e => {
+			console.log(e)
+			setValue(e.target.value)
+		}
+	}
 
 
+	return [value, bindForm, clearText];
+}
+
+export default useInput;
+````
+
+- Se puede usar el operador spread, se pueden pasar las mismas propiedades declaradas en el custo hook al input del html, del componente: se rendererizará como html
+- En el component
+
+```jsx
+import React from 'react';
+
+import useInput from './../hooks/useInput';
+
+const FormBase = () => {
+  const [nombre,bindNombre,clearNombre] = useInput("");
+  const [email,bindEmail,clearEmail] = useInput("");
+
+  const enviar = (e) => {
+    e.preventDefault();
+    alert(`El nombre es ${nombre} y el correo ${email}`);
+    clearNombre();
+    clearEmail();
+  }
+
+  return (
+    <form onSubmit={enviar}>
+    <div>
+    <label>Nombre</label>
+    <input {...bindNombre} type="text"/>
+    </div>
+    {/**}
+    <div>
+    <label>Email</label>
+    <input value={email} onChange={e =>setEmail(e.target.value)} type="text"/>
+    </div>
+    */}
+    <div>
+    <label>Email</label>
+    <input {...bindEmail} type="text"/>
+    </div>
+    <button>Enviar</button>
+    </form>
+  );
+
+}
+
+function Form() {
+  return (
+    <div className="Form">
+    <FormBase/>
+    </div>
+  );
+}
+
+export default Form;
+
+```
 
