@@ -957,8 +957,6 @@ export default App;
 - Cuando los componentes son desmontados hay veces que no se desmontan las funciones vinculadas a él y se siguen ejecutando
 - useRef puede servir para eso
 
-
-
 ## 64 useCallback
 
 - Usado para evitar que una función se vuelva a renderear
@@ -1135,7 +1133,7 @@ const useInput = (initialValue) => {
 export default useInput;
 ````
 
-- Se puede usar el operador spread, se pueden pasar las mismas propiedades declaradas en el custo hook al input del html, del componente: se rendererizará como html
+- Se puede usar el operador spread, se pueden pasar las mismas propiedades declaradas en el custom hook al input del html, del componente: se rendererizará como html
 - En el component
 
 ```jsx
